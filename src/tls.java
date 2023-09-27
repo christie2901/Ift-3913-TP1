@@ -31,7 +31,7 @@ public class tls {
                         line = scanner.nextLine();
                     }
                 }
-                if (!line.contains("//"))){
+                if (!(line.contains("//"))){
                     if (line.contains("package")){
                         paquet = line.replace("package","").replace(" ","").replace(";","");
                         break;
