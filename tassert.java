@@ -14,13 +14,14 @@ public class tassert{
             //si la ligne n'est pas un commentaire et contient "assert" alors nbAssert++
             String line = scanner.nextLine();
 
-            if (!line.isBlank()){
+            if (!(line.compareTo("")==0)){
                 if (line.contains("/*")) {
                     // ignore les blocs de commentaires
                     line = scanner.nextLine();
-                    while (scanner.hasNextLine() && ( line.contains("*") || line.contains("*/") ) ) {
+                    while (scanner.hasNextLine() && ( !(line.contains("*/")))) {
                         line = scanner.nextLine();
                     }
+                    continue;
                 }
 
                 if (!(line.contains("//"))){
@@ -35,7 +36,7 @@ public class tassert{
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        System.out.println(tassert("C:/Users/tiffa/Desktop/IFT3913/TP1_Tester.txt"));
+        System.out.println(tassert(args[0]));
         //"C:/Users/tiffa/Desktop/IFT2255/Robotix_FINAL/Implementation/Robot/TachesTest.java"
     }
 
