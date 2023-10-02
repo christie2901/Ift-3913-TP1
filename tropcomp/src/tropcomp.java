@@ -83,7 +83,7 @@ public class tropcomp {
         if (formatTLS.isEmpty()){
             System.out.println("Il n'y a pas de classes tests suspectes.");
         } else {
-            FileWriter fileWriter = new FileWriter("resultats.csv");
+            FileWriter fileWriter = new FileWriter("resultats_seuil" + s + ".csv");
             for (String r : formatTLS){
                 fileWriter.append(r);
                 fileWriter.append("\n");
