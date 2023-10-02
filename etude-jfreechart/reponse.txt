@@ -1,0 +1,3 @@
+Pour un seuil de 1%, tropcomp ne trouve aucune classe test suspecte.
+Pour un seuil de 5%, tropcomp ne trouve aucune classe test suspecte.
+Pour un seuil de 10%, tropcomp trouve 2 classes suspectes : BoxAndWhiskerRendererTest et ChartPanelTest.
