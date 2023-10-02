@@ -1,5 +1,5 @@
 # Ift-3913-TP1
-Tiffany Chan-Tave et Christie Embeya Kongandji <br>
+# Tiffany Chan-Tave et Christie Embeya Kongandji
 https://github.com/christie2901/Ift-3913-TP1.git <br>
 
 Pour exécuter nos programmes, il faut utiliser dans la ligne de commande la commande cd jusqu'à ce que l'on soit dans le dossier /out/artifacts/nom-programme_jar.
