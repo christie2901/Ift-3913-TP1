@@ -60,7 +60,9 @@ public class tls {
             String result = path + ", " + paquet + ", " + nomClasse + ", " + nblignes + ", " + nbAssert + ", " + tcmp;
 
             //Sortir sur la ligne de commande
-            System.out.println(result);
+            if (tcmp != 0.0){ //ignore si ce n'est pas une classe test
+                System.out.println(result);
+            }
 
         }
 
