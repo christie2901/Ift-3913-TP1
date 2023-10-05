@@ -7,9 +7,13 @@ Pour exécuter nos programmes, il faut utiliser dans la ligne de commande la com
 Pour tloc, tassert et tls, il suffit d'entrer dans la ligne de commande: <br>
 java -jar programme.jar chemin
 <br>
+Où chemin est un chemin d'un fichier source d'une classe de test java pour tloc et tassert.<br>
+Pour tls, chemin est un chemin d'accès d'un dossier qui contient du code test java organisé 
+en paquets.<br>
 Les résultats seront affichés directement dans la console.
 <br><br>
 Pour tropcomp, il suffit d'entrer dans la ligne de commande: <br>
-java -jar tropcomp.jar chemin seuil
+java -jar tropcomp.jar sortie chemin seuil
 <br>
-Le fichier csv généré sera dans le dossier out/artifacts/tropcomp_jar
+Où sortie est le chemin voulu pour le fichier csv produit, chemin est un chemin principal d’un projet java et seuil est le pourcentage à observer pour déterminer les classes suspectes.
+<br>
