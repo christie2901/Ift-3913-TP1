@@ -15,7 +15,7 @@ public class tls {
 
             String filename = file.getName();
             String chemin = source + "/" + filename;
-            //S'il y a un fichier pas .java qu'est-ce qu'on fait
+            //S'il y a un fichier pas .java
             if (!filename.contains(".java")){
                 continue;
             }
