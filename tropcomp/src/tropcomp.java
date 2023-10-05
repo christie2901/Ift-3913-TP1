@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class tropcomp {
-    public static void tropcomp(String source, double seuil) throws FileNotFoundException {
+    public static void tropcomp(String source, String s) throws IOException {
 
         //D'abord il faut aller au path des classes tests, configuration Maven
         // mon_projet/src/test : contient toutes les données nécessaire pour tester l'application
@@ -28,6 +28,7 @@ public class tropcomp {
         String[][] TLOC = new String[allFiles.size()][2];
         String [][] TCOMP = new String[allFiles.size()][2];
 
+        double seuil = Double.parseDouble(s);
         int nbSuspects = (int) Math.ceil(allFiles.size()*seuil/100);
         //si on a 100 fichiers alors le seuil 1% est celui le plus grand
         // si seuil 5%, les 5 plus grands
@@ -35,11 +36,11 @@ public class tropcomp {
         //collecte de données
         int compte = 0;
         for (File file : allFiles){
-            int nbLignes = tloc.lignes(file.getPath());
+            int nbLignes = tloc(file.getPath());
             TLOC[compte][0] = file.getPath();
             TLOC[compte][1] = String.valueOf(nbLignes);
 
-            int nbAssert = tassert.tassert(file.getPath());
+            int nbAssert = tassert(file.getPath());
             TCOMP[compte][0] = file.getPath();
             if (nbAssert==0){
                 TCOMP[compte][1] = String.valueOf(0);
@@ -83,13 +84,14 @@ public class tropcomp {
         if (formatTLS.isEmpty()){
             System.out.println("Il n'y a pas de classes tests suspectes.");
         } else {
-            FileWriter fileWriter = new FileWriter("resultats_seuil" + s + ".csv");
+            FileWriter fileWriter = new FileWriter(source + "\\resultats_seuil" + s + ".csv");
             for (String r : formatTLS){
                 fileWriter.append(r);
+                System.out.println(r);
                 fileWriter.append("\n");
             }
             fileWriter.close();
-
+            System.out.println("Chemin du fichier csv produit: " + source + "\\resultats_seuil" + s + ".csv");
         }
 
     }
@@ -214,7 +216,6 @@ public class tropcomp {
     public static ArrayList<String> tls(String[] fichiers) throws FileNotFoundException {
         ArrayList<String> resultTLS = new ArrayList<>();
 
-
         for (String fichier : fichiers){
             if (fichier==null){
                 break;
@@ -260,15 +261,20 @@ public class tropcomp {
                 tcmp = (double) nblignes / nbAssert;
             }
 
-            String result = chemin + ", " + paquet + ", " + nomClasse + ", " + nblignes + ", " + nbAssert + ", " + tcmp;
+            assert paquet != null;
+            String pack = paquet.replace(".","\\");
+            String path = chemin.replace(chemin.substring(0,chemin.lastIndexOf(pack)+pack.length()),".");
+
+            String result = path + ", " + paquet + ", " + nomClasse + ", " + nblignes + ", " + nbAssert + ", " + tcmp;
+
             resultTLS.add(result);
 
         }
         return resultTLS;
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException {
         tropcomp(args[0],args[1]);
-        //"C:\\Users\\tiffa\\Desktop\\IFT3913\\jfreechart-master\\jfreechart-master" 1
+        //"C:\Users\tiffa\Desktop\IFT3913\jfreechart-master\jfreechart-master"
     }
 }
