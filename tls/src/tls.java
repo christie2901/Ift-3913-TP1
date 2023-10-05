@@ -53,7 +53,12 @@ public class tls {
                 tcmp = (double) nblignes / nbAssert;
             }
 
-            String result = chemin + ", " + paquet + ", " + nomClasse + ", " + nblignes + ", " + nbAssert + ", " + tcmp;
+            assert paquet != null;
+            String pack = paquet.replace(".","\\");
+            String path = chemin.replace(chemin.substring(0,chemin.lastIndexOf(pack)+pack.length()),".");
+
+            String result = path + ", " + paquet + ", " + nomClasse + ", " + nblignes + ", " + nbAssert + ", " + tcmp;
+
             //Sortir sur la ligne de commande
             System.out.println(result);
 
