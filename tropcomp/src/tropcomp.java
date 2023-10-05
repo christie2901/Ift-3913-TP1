@@ -80,7 +80,9 @@ public class tropcomp {
 
         //sortir dans le format tls
         ArrayList<String> formatTLS = tls(suspects);
+        
         //produire un fichier csv
+        //sortie en ligne de commande du chemin
         if (formatTLS.isEmpty()){
             System.out.println("Il n'y a pas de classes tests suspectes.");
         } else {
@@ -93,7 +95,6 @@ public class tropcomp {
             fileWriter.close();
             System.out.println("Chemin du fichier csv produit: " + source + "/resultats_seuil" + s + ".csv");
         }
-
     }
 
     public static ArrayList<File> getFiles(File folder){
@@ -266,8 +267,9 @@ public class tropcomp {
             String path = chemin.replace(chemin.substring(0,chemin.lastIndexOf(pack)+pack.length()),".");
 
             String result = path + ", " + paquet + ", " + nomClasse + ", " + nblignes + ", " + nbAssert + ", " + tcmp;
-
-            resultTLS.add(result);
+            if (tcmp != 0.0){ //ignore si ce n'est pas une classe test
+                resultTLS.add(result);
+            }
 
         }
         return resultTLS;
