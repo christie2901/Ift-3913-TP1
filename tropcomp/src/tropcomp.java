@@ -84,14 +84,14 @@ public class tropcomp {
         if (formatTLS.isEmpty()){
             System.out.println("Il n'y a pas de classes tests suspectes.");
         } else {
-            FileWriter fileWriter = new FileWriter(source + "\\resultats_seuil" + s + ".csv");
+            FileWriter fileWriter = new FileWriter(source + "/resultats_seuil" + s + ".csv");
             for (String r : formatTLS){
                 fileWriter.append(r);
                 System.out.println(r);
                 fileWriter.append("\n");
             }
             fileWriter.close();
-            System.out.println("Chemin du fichier csv produit: " + source + "\\resultats_seuil" + s + ".csv");
+            System.out.println("Chemin du fichier csv produit: " + source + "/resultats_seuil" + s + ".csv");
         }
 
     }
@@ -222,7 +222,7 @@ public class tropcomp {
             }
             File file = new File(fichier);
             String filename = file.getName();
-            String chemin = file.getPath();
+            String chemin = file.getPath().replace("\\","/");
             //S'il y a un fichier pas .java
             if (!filename.contains(".java")){
                 continue;
