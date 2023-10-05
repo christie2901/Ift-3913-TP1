@@ -54,7 +54,7 @@ public class tls {
             }
 
             assert paquet != null;
-            String pack = paquet.replace(".","\\");
+            String pack = paquet.replace(".","/");
             String path = chemin.replace(chemin.substring(0,chemin.lastIndexOf(pack)+pack.length()),".");
 
             String result = path + ", " + paquet + ", " + nomClasse + ", " + nblignes + ", " + nbAssert + ", " + tcmp;
