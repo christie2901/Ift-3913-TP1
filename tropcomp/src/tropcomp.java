@@ -210,6 +210,7 @@ public class tropcomp {
         return nbAssert;
     }
 
+    //Modification de la fonction tls pour prendre en paramètre un tableau de chemins au lieu d'un chemin d'un dossier source
     public static ArrayList<String> tls(String[] fichiers) throws FileNotFoundException {
         ArrayList<String> resultTLS = new ArrayList<>();
 
@@ -221,7 +222,7 @@ public class tropcomp {
             File file = new File(fichier);
             String filename = file.getName();
             String chemin = file.getPath();
-            //S'il y a un fichier pas .java qu'est-ce qu'on fait
+            //S'il y a un fichier pas .java
             if (!filename.contains(".java")){
                 continue;
             }
