@@ -31,13 +31,10 @@ public class tassert{
                 }
             }
         }
-
         return nbAssert;
     }
 
     public static void main(String[] args) throws FileNotFoundException {
         System.out.println(tassert(args[0]));
-        //"C:/Users/tiffa/Desktop/IFT2255/Robotix_FINAL/Implementation/Robot/TachesTest.java"
     }
-
 }
