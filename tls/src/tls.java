@@ -29,11 +29,12 @@ public class tls {
     public static ArrayList<String> tlsInter(String source) throws FileNotFoundException {
         File folder = new File(source);
         ArrayList<String> out = new ArrayList<>();
+        ArrayList<File> allFiles = getFiles(folder);
         
-        for (File file : Objects.requireNonNull(folder.listFiles())){
+        for (File file : allFiles){
 
             String filename = file.getName();
-            String chemin = source.replace("\\","/") + "/" + filename;
+            String chemin = file.getPath().replace("\\","/");
             //il faut ignorer les fichiers qui ne sont pas une classe java
             if (!filename.contains(".java") || !filename.contains("Test")){
                 continue;
@@ -79,6 +80,28 @@ public class tls {
             out.add(result);
         }
         return out;
+    }
+
+    public static ArrayList<File> getFiles(File folder){
+
+        int nbFiles = Objects.requireNonNull(folder.listFiles()).length;
+        ArrayList<File> allFiles = new ArrayList<>();
+
+        if (nbFiles>0){
+            //dossier ou classe test?
+            for (File file : Objects.requireNonNull(folder.listFiles())){
+                if (file.listFiles() == null){
+                    //fichier
+                    if (file.getName().contains(".java") && file.getName().contains("Test")){
+                        allFiles.add(file);
+                    }
+                } else {
+                    //dossier
+                    allFiles.addAll(getFiles(file));
+                }
+            }
+        }
+        return allFiles;
     }
 
     public static int tloc(String source) throws FileNotFoundException { //prend en paramètre un fichier source d'une classe de test java
