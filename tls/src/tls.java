@@ -1,28 +1,47 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
-
-
 
 public class tls {
 
     public static void tls(String source) throws FileNotFoundException {
-        File folder = new File(source);
+        for (String out : tlsInter(source)){
+            System.out.println(out);
+        }
+    }
 
-        //il faut ignorer les fichiers qui ne sont pas une classe java
+    public static void tls(String sortie, String source) throws IOException {
+        ArrayList<String> out = tlsInter(source);
+
+        //produire un fichier csv
+        FileWriter fileWriter = new FileWriter(sortie);
+        for (String r : out) {
+            fileWriter.append(r);
+            fileWriter.append("\n");
+        }
+        fileWriter.close();
+    }
+
+    public static ArrayList<String> tlsInter(String source) throws FileNotFoundException {
+        File folder = new File(source);
+        ArrayList<String> out = new ArrayList<>();
+        
         for (File file : Objects.requireNonNull(folder.listFiles())){
 
             String filename = file.getName();
             String chemin = source.replace("\\","/") + "/" + filename;
-            //S'il y a un fichier pas .java
-            if (!filename.contains(".java")){
+            //il faut ignorer les fichiers qui ne sont pas une classe java
+            if (!filename.contains(".java") || !filename.contains("Test")){
                 continue;
             }
             String nomClasse = filename.substring(0,filename.indexOf(".java"));
 
             //Besoin de scanner pour avoir le package
-            String paquet = null;
+            String paquet = "";
 
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()){
@@ -41,7 +60,6 @@ public class tls {
                         break;
                     } else if (line.contains("public class")){break;}
                 }
-
             }
 
             int nblignes = tloc(chemin);
@@ -53,19 +71,14 @@ public class tls {
                 tcmp = (double) nblignes / nbAssert;
             }
 
-            assert paquet != null;
             String pack = paquet.replace(".","/");
             String path = chemin.replace(chemin.substring(0,chemin.lastIndexOf(pack)+pack.length()),".");
 
-            String result = path + ", " + paquet + ", " + nomClasse + ", " + nblignes + ", " + nbAssert + ", " + tcmp;
-
+            String result = path + ", " + paquet + ", " + nomClasse + ", " + nblignes + ", " + nbAssert + ", " + String.format("%.2f",tcmp);
             //Sortir sur la ligne de commande
-            if (tcmp != 0.0){ //ignore si ce n'est pas une classe test
-                System.out.println(result);
-            }
-
+            out.add(result);
         }
-
+        return out;
     }
 
     public static int tloc(String source) throws FileNotFoundException { //prend en paramètre un fichier source d'une classe de test java
@@ -134,8 +147,10 @@ public class tls {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        tls(args[0]);
-        //"C:/Users/tiffa/Desktop/IFT2255/Robotix_FINAL/Implementation/Robot"
+        if (args.length == 1){
+            tls(args[0]);
+        } else {
+            tls(args[0],args[1]);
+        }
     }
-
 }
