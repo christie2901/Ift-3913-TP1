@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class tloc{
     //retourne le nombre de lignes de code non-vides qui ne sont pas des commentaires
-
-    public static int tloc(String source) throws FileNotFoundException { //prend en paramètre un fichier source d'une classe de test java
+    public static int tloc(String source) throws FileNotFoundException { 
+        //prend en paramètre un fichier source d'une classe de test java
         File classTest = new File(source);
 
         Scanner scanner = new Scanner(classTest);
@@ -40,8 +40,5 @@ public class tloc{
     }
     public static void main(String[] args) throws FileNotFoundException {
         System.out.println(tloc(args[0]));
-        //Robot/Taches.java doit donner 321 "C:/Users/tiffa/Desktop/IFT2255/Robotix_FINAL/Implementation/Robot/Taches.java"
-        //UtilitairesFichier.java doit donner 62
-        //"C:/Users/tiffa/Desktop/IFT3913/TP1_tester.txt" 19
     }
 }
