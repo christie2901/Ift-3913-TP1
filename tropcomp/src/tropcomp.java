@@ -7,7 +7,35 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class tropcomp {
+    
     public static void tropcomp(String source, String s) throws IOException {
+        ArrayList<String> out = tropcompInter(source,s);
+        if (out.isEmpty()){
+            System.out.println("Il n'y a pas de classes suspectes trouvées.");
+        } else {
+            for (String o : out){
+                System.out.println(o);
+            }
+        }
+    }
+
+    public static void tropcomp(String sortie, String source, String s) throws IOException {
+        ArrayList<String> out = tropcompInter(source,s);
+        //produire un fichier csv
+        if (out.isEmpty()){
+            System.out.println("Il n'y a pas de classes tests suspectes.");
+        } else {
+            FileWriter fileWriter = new FileWriter(sortie);
+            for (String o : out){
+                fileWriter.append(o);
+                fileWriter.append("\n");
+            }
+            fileWriter.close();
+            System.out.println("Chemin du fichier csv produit: " + sortie);
+        }
+    }
+    
+    public static ArrayList<String> tropcompInter(String source, String s) throws IOException {
 
         //D'abord il faut aller au path des classes tests, configuration Maven
         // mon_projet/src/test : contient toutes les données nécessaire pour tester l'application
@@ -16,7 +44,6 @@ public class tropcomp {
 
          //dans mon_projet/src/test/java il peut y avoir des dossiers contenant des classes test, des classes test et d'autres fichiers qui ne sont pas des .java
         String sourceTest = source + "/src/test/java";
-
 
         File folder = new File(sourceTest);
 
@@ -77,24 +104,8 @@ public class tropcomp {
                 break;
             }
         }
-
         //sortir dans le format tls
-        ArrayList<String> formatTLS = tls(suspects);
-        
-        //produire un fichier csv
-        //sortie en ligne de commande du chemin
-        if (formatTLS.isEmpty()){
-            System.out.println("Il n'y a pas de classes tests suspectes.");
-        } else {
-            FileWriter fileWriter = new FileWriter(source + "/resultats_seuil" + s + ".csv");
-            for (String r : formatTLS){
-                fileWriter.append(r);
-                System.out.println(r);
-                fileWriter.append("\n");
-            }
-            fileWriter.close();
-            System.out.println("Chemin du fichier csv produit: " + source + "/resultats_seuil" + s + ".csv");
-        }
+        return tls(suspects);
     }
 
     public static ArrayList<File> getFiles(File folder){
@@ -107,7 +118,7 @@ public class tropcomp {
             for (File file : Objects.requireNonNull(folder.listFiles())){
                 if (file.listFiles() == null){
                     //fichier
-                    if (file.getName().contains(".java")){
+                    if (file.getName().contains(".java") && file.getName().contains("Test")){
                         allFiles.add(file);
                     }
                 } else {
@@ -266,17 +277,18 @@ public class tropcomp {
             String pack = paquet.replace(".","/");
             String path = chemin.replace(chemin.substring(0,chemin.lastIndexOf(pack)+pack.length()),".");
 
-            String result = path + ", " + paquet + ", " + nomClasse + ", " + nblignes + ", " + nbAssert + ", " + tcmp;
-            if (tcmp != 0.0){ //ignore si ce n'est pas une classe test
-                resultTLS.add(result);
-            }
-
+            String result = path + ", " + paquet + ", " + nomClasse + ", " + nblignes + ", " + nbAssert + ", " + String.format("%.2f",tcmp);
+            
+            resultTLS.add(result);
         }
         return resultTLS;
     }
 
     public static void main(String[] args) throws IOException {
-        tropcomp(args[0],args[1]);
-        //"C:\Users\tiffa\Desktop\IFT3913\jfreechart-master\jfreechart-master"
+        if (args.length==3){
+            tropcomp(args[0],args[1],args[2]);
+        } else {
+            tropcomp(args[0],args[1]);
+        }
     }
 }
