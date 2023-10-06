@@ -1,3 +1,19 @@
 Pour un seuil de 1%, tropcomp ne trouve aucune classe test suspecte.
 Pour un seuil de 5%, tropcomp ne trouve aucune classe test suspecte.
 Pour un seuil de 10%, tropcomp trouve 2 classes suspectes : BoxAndWhiskerRendererTest et ChartPanelTest.
+
+L'heuristique de tropcomp définit une classe suspecte si ses métriques TLOC et TCMP(=TLOC/TASSERT) sont tous les deux dans les <seuil>% supérieures de toutes les classes de test du projet.
+L'heuristique de tropcomp ne trouve pas vraiment de code de test trop complexe.
+Nos résultats montrent qu'on ne trouve aucune classe suspecte pour des seuils de 1% et 5%.
+De plus, on ne trouve que deux classes test suspectes pour le seuil de 10%, alors que les tops 10% supérieur de toutes les classes de test du projet pour les métriques TLOC et TCMP ont chacunes 36 classes test.
+
+On pourrait l'améliorer en définissant l'heuristique comme suit:  une classe est suspecte si ses métriques TNAS (=TNOO/TASSERT) et TCMP(=TLOC/TASSERT) sont tous les deux dans les <seuil>% supérieures de toutes les classes de test du projet.
+La métrique TCMP prend en compte les métriques TLOC et TASSERT, donc le top <seuil>% trouvé indique les classes
+dont le nombre de lignes est considérablement plus grand que le nombre d'appel de fonctions assert.
+La métrique TNOO compte le nombre de méthodes dans une classe test.
+Plus il y a de méthodes, plus le code de test est complexe.
+Si TNAS=TNOO/TASSERT est élevé, cela indique que le code de test doit faire beaucoup de travail ou doit initialiser un environnement considérable avant de pouvoir "assert"/tester le comportement du code qui doit être testé.
+Ceci peut être un indicateur de code de test trop complexe.
+
+Nous pourrions aussi prendre en compte la métrique TDATA qui compte le nombre de nouveaux objets créés dans la classe test.
+Un nombre élevé de nouveaux objets peut indiquer du code de test trop complexe, car il faut initialiser un grand environnement avant de tester le code.
