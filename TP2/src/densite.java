@@ -4,17 +4,15 @@ import java.util.Scanner;
 
 public class densite {
 
-    public static double densiteComment(String source) throws FileNotFoundException {
-        double loc = loc(source);
-        double cloc = loc(source) - tloc.tloc(source);
+    public static double densiteComment(File file) throws FileNotFoundException {
+        double loc = loc(file);
+        double cloc = loc(file) - tloc.tloc(file.getAbsolutePath());
 
         return cloc/loc;
     }
 
-    public static int loc(String source) throws FileNotFoundException {
-        File classTest = new File(source);
-
-        Scanner scanner = new Scanner(classTest);
+    public static int loc(File file) throws FileNotFoundException {
+        Scanner scanner = new Scanner(file);
 
         int nbLignes = 0;
         while(scanner.hasNextLine()){
