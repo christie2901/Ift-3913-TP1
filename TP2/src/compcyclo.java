@@ -71,12 +71,6 @@ public class compcyclo {
 
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
-        File file = new File("C:\\Users\\tiffa\\Desktop\\IFT3913\\TP2\\jfreechart-1.5.4\\src\\main\\java\\org\\jfree\\chart\\editor\\DefaultChartEditor.java");
-        System.out.println(compcyclo(file));
-    }
-
-
 }
 
 
