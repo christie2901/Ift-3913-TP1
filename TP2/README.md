@@ -5,6 +5,7 @@ Voici le lien de notre répertoire git:
 https://github.com/christie2901/Ift-3913-TPS.git 
 
 Vous trouverez dans le répertoire et le dossier .zip remis notre rapport et un programme contenant les classes suivantes:
+
 -Main dans laquelle on calcule les métriques choisies.
 
 -densite qui sert à calculer la densité de commentaire d'une classe. Elle compte le nombre de lignes de la classe. Elle calcule 
