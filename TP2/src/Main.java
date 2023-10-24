@@ -1,18 +1,26 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
-    static String source = "C:\\Users\\tiffa\\Desktop\\IFT3913\\TP2\\jfreechart-1.5.4";
+    static String path = String.valueOf(Paths.get("").toAbsolutePath());
+
+    // "IFT3913_TP2" est le nom du projet
+    //Il faut avoir téléchargé la dernière version stable de jfreechart, https://github.com/jfree/jfreechart/tree/v1.5.4
+    static String source = path.substring(0,path.indexOf("IFT3913_TP2")) + "jfreechart-1.5.4";
+    
     static String sourceMain = source.replace("\\","/") + "/src/main/java";
+    
     static String sourceTest = source.replace("\\","/") + "/src/test/java";
-
+    
     static File folderMain = new File(sourceMain);
+    
     static File folderTest = new File(sourceTest);
-
+    
     static ArrayList<File> mainFiles = getFiles(folderMain);
+    
     static ArrayList<File> testFiles = getFiles(folderTest);
 
 
@@ -49,10 +57,8 @@ public class Main {
 
                 differences += (dateMain - dateTest);
                 nbClass++;
-
             }
         }
-
         return differences/nbClass;
     }
 
@@ -60,7 +66,6 @@ public class Main {
         //Moyenne de tous les ratios taille code/taille test
         double sommeCode = 0;
         double sommeTest = 0;
-        int nbClass = 0;
 
         for (File file : testFiles) {
             sommeTest += tloc.tloc(String.valueOf(file));
@@ -79,7 +84,6 @@ public class Main {
         for (File file : testFiles){
             complexite += compcyclo.compcyclo(file);
         }
-
         return complexite/testFiles.size();
     }
 
@@ -88,7 +92,6 @@ public class Main {
         for (File file : testFiles){
             dense += densite.densiteComment(file);
         }
-
         return dense/testFiles.size();
     }
 
@@ -101,37 +104,29 @@ public class Main {
         return ratio/testFiles.size();
     }
 
-    //code provenant de notre TP1
-    public static ArrayList<File> getFiles(File folder){
-
-        int nbFiles = Objects.requireNonNull(folder.listFiles()).length;
-        ArrayList<File> allFiles = new ArrayList<>();
-
-        if (nbFiles>0){
-            //dossier ou classe test?
-            for (File file : Objects.requireNonNull(folder.listFiles())){
-                if (file.listFiles() == null){
-                    //fichier
-                    if (file.getName().contains(".java")){
-                        allFiles.add(file);
-                    }
-                } else {
-                    //dossier
-                    allFiles.addAll(getFiles(file));
-                }
-            }
+    public static double seuilTPC() throws FileNotFoundException {
+        double nbMethod = 0;
+        for (File file: mainFiles){
+            nbMethod += pmnt.getMethods(file);
         }
-        return allFiles;
+        double nbTest = 0;
+        for (File file : testFiles){
+            nbTest += (double) tassert.tassert(file)/pmnt.getMethods(file);
+        }
+
+        return nbMethod/mainFiles.size()*nbTest/testFiles.size();
     }
+    
 
     public static void main(String[] args) throws FileNotFoundException {
-        System.out.println(tpc());
-        System.out.println(age());
-        System.out.println(ratio());
-        System.out.println(complexiteCyclo());
-        System.out.println(pmnt.pmnt(source));
-        System.out.println(densite());
-        System.out.println(compDense());
+        System.out.println("Seuil de TPC: " + seuilTPC());
+        System.out.println("Moyenne des tests par classe: " + tpc());
+        System.out.println("Moyenne des différences d'age: " + age());
+        System.out.println("Ratio taille code/taille test: " + ratio());
+        System.out.println("Moyenne des complexités cyclomatiques: " + complexiteCyclo());
+        System.out.println("Pourcentage de méthodes non testés: " + pmnt.pmnt(source));
+        System.out.println("Moyenne des densités de commentaire: " + densite());
+        System.out.println("Moyenne du ratio complexité/densité de commentaire: " + compDense());
     }
 
 }
