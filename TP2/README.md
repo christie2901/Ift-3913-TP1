@@ -29,3 +29,5 @@ Pour exécuter le programme à partir du dossier remis sur  studium, il faut s'a
 
 Il suffit d'entrer dans la ligne de commande:
 java -jar IFT3913_TP2.jar
+
+Le résultat sera affiché directement dans la console.
