@@ -19,9 +19,9 @@ public class Main {
     
     static File folderTest = new File(sourceTest);
     
-    static ArrayList<File> mainFiles = getFiles(folderMain);
+    static ArrayList<File> mainFiles = pmnt.getFiles(folderMain);
     
-    static ArrayList<File> testFiles = getFiles(folderTest);
+    static ArrayList<File> testFiles = pmnt.getFiles(folderTest);
 
 
     public static double tpc() throws FileNotFoundException {
