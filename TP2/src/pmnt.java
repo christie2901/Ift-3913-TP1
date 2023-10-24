@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
-
 public class pmnt {
 
     public static double pmnt(String source) throws FileNotFoundException {
@@ -15,7 +14,6 @@ public class pmnt {
 
         //on présume que pour tester une méthode de la classe cible, on crée une méthode dans la classe test
 
-
         String sourceMain = source.replace("\\","/") + "/src/main/java";
         String sourceTest = source.replace("\\","/") + "/src/test/java";
 
@@ -25,11 +23,9 @@ public class pmnt {
         ArrayList<File> classMain = getFiles(folderMain);
         ArrayList<File> classTest = getFiles(folderTest);
 
-
         double nbMethod = 0;
         double nbMethodTest = 0;
         for (File file : classTest) {
-
             nbMethodTest += getMethods(file);
         }
 
@@ -60,7 +56,6 @@ public class pmnt {
 
     //code provenant de notre TP1
     public static ArrayList<File> getFiles(File folder){
-
         int nbFiles = Objects.requireNonNull(folder.listFiles()).length;
         ArrayList<File> allFiles = new ArrayList<>();
 
@@ -80,5 +75,4 @@ public class pmnt {
         }
         return allFiles;
     }
-
 }
